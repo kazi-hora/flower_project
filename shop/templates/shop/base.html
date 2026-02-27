@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flower Shop</title>
+    <link rel="stylesheet" href="{% static 'shop/style.css' %}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">🌸 Flower Shop</div>
+
+    <ul class="menu">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'flowers' %}">Flowers</a></li>
+        <li><a href="{% url 'shopplants' %}">Shop Plants</a></li>
+        <li><a href="{% url 'weddings' %}">Weddings</a></li>
+        <li><a href="{% url 'workshop' %}">Workshop</a></li>
+        <li><a href="{% url 'orders' %}">Orders</a></li>
+
+        <!-- 🛒 CART -->
+        <li class="cart-menu">
+            <a href="{% url 'cart' %}">
+                🛒 Cart
+                {% if user.is_authenticated and cart_count|default:0 > 0 %}
+                    <span class="cart-badge">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+        </li>
+    </ul>
+
+    <div class="auth-buttons">
+        {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn login-btn">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+            <a href="{% url 'register' %}" class="btn login-btn">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- ✅ GLOBAL DJANGO MESSAGES -->
+{% if messages %}
+<div style="max-width:1000px;margin:15px auto;">
+    {% for message in messages %}
+        <div style="
+            padding:12px;
+            border-radius:6px;
+            margin-bottom:10px;
+            text-align:center;
+            font-weight:600;
+            {% if message.tags == 'success' %}
+                background:#d4edda; color:#155724;
+            {% elif message.tags == 'error' %}
+                background:#f8d7da; color:#721c24;
+            {% elif message.tags == 'warning' %}
+                background:#fff3cd; color:#856404;
+            {% else %}
+                background:#e2e3e5; color:#383d41;
+            {% endif %}
+        ">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

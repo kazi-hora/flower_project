@@ -1,0 +1,338 @@
+{% extends "shop/base.html" %}
+{% block content %}
+
+<style>
+.contact-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 15px;
+}
+
+.contact-form {
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.contact-form h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #2e7d32;
+}
+
+.contact-form p.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    width: 100%;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.contact-form textarea {
+    resize: none;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(45deg, #e91e63, #ff6f91);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.contact-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.notice-box {
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 18px;
+    border-left: 4px solid #ffc107;
+}
+
+.go-shop {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    background: #4caf50;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.success-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    background: #d4edda;
+    color: #155724;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(10px);}
+    to {opacity:1; transform:translateY(0);}
+}
+/* ===== FOOTER MAIN ===== */
+.site-footer {
+    background: #2e7d32;
+    padding: 18px 15px 10px;
+    font-size: 12px;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+}
+
+/* Grid Layout */
+.footer-container {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+/* Column Titles */
+.footer-column h4 {
+    font-size: 13px;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+}
+
+/* Links */
+.footer-column a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    margin-bottom: 4px;
+    font-size: 12px;
+    transition: 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: #e91e63;
+    transform: translateX(2px);
+}
+
+/* Contact Text */
+.footer-column p {
+    margin: 2px 0;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+/* ===== SOCIAL ICONS ===== */
+.footer-social {
+    text-align: center;
+    margin: 8px 0 6px;
+}
+
+.footer-social a {
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
+}
+
+.footer-social svg {
+    width: 16px;
+    height: 16px;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+    background: #e91e63;
+}
+
+.footer-social a:hover svg path {
+    fill: #fff;
+}
+
+/* ===== COPYRIGHT ===== */
+.footer-bottom {
+    text-align: center;
+    font-size: 11px;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+    padding-top: 6px;
+}
+
+.footer-bottom a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+.footer-bottom a:hover {
+    color: #e91e63;
+}
+</style>
+<div class="contact-wrapper">
+    <form method="POST" action="{% url 'refund_request' %}" enctype="multipart/form-data" class="contact-form">
+
+        {% csrf_token %}
+
+        <h2>Return / Damaged Item Support</h2>
+        <p class="subtitle">Report damaged or incorrect items within 24 hours of delivery</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}error-message{% else %}success-message{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- User Info -->
+        <div class="notice-box">
+            👤 Logged in as: <strong>{{ request.user.username }}</strong><br>
+            📦 Total Orders: <strong>{{ total_orders }}</strong>
+        </div>
+
+        <!-- Auto Filled Name & Email -->
+        <input type="text" name="name" value="{{ request.user.username }}" readonly>
+        <input type="email" name="email" value="{{ request.user.email }}" readonly>
+
+        <!-- Order Select -->
+        <select name="order_id" id="orderSelect" required>
+            <option value="">Select your order</option>
+            {% for order in orders %}
+                <option value="{{ order.id }}"
+                        data-flower="{{ order.flower.name }}"
+                        data-qty="{{ order.quantity }}"
+                        data-price="{{ order.total_price }}"
+                        data-date="{{ order.created_at|date:'Y-m-d' }}">
+                    Order #{{ order.id }} - {{ order.flower.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <!-- Order Details -->
+        <div id="orderDetails" style="margin-bottom:15px; font-size:14px; color:#555;"></div>
+
+        <!-- Issue Type -->
+        <select name="issue_type" required>
+            <option value="">Select Issue</option>
+            <option value="Damaged Item">Damaged Item</option>
+            <option value="Wrong Item">Wrong Item</option>
+            <option value="Late Delivery">Late Delivery</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <!-- Description -->
+        <textarea name="description" placeholder="Describe your issue" required></textarea>
+
+        <!-- Submit -->
+        <button type="submit">Submit Request</button>
+
+        <a href="{% url 'flowers' %}" class="go-shop">🌸 Back to Shop</a>
+    </form>
+</div>
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="footer-container">
+
+    <div class="footer-column">
+    <h4>SHOP</h4>
+    <a href="{% url 'workshop' %}">Arrangements</a>
+    <a href="{% url 'shopplants' %}">Plants</a>
+</div>
+
+<div class="footer-column">
+    <h4>SERVICES</h4>
+    <a href="{% url 'weddings' %}">Weddings & Events</a>
+    <a href="{% url 'workshop' %}">Workshops</a>
+</div>
+
+<div class="footer-column">
+    <h4>COMPANY</h4>
+    <a href="{% url 'about' %}">About Us</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+</div>
+
+
+        <div class="footer-column footer-contact">
+            <h4>VISIT US</h4>
+            <p>flower@gmail.com</p>
+            <p>Mon-Fri: 8am-7pm</p>
+            <p>Sat-Sun: 8am-6pm</p>
+        </div>
+    </div>
+
+    <!-- SOCIAL ICONS -->
+    <div class="footer-social">
+        <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="#000"><path d="M21 8.5a7.5 7.5 0 0 1-4.5-1.5V15a6 6 0 1 1-6-6c.34 0 .67.03 1 .08v3.03a3 3 0 1 0 3 3V2h3a4.5 4.5 0 0 0 4.5 4.5v2z"/></svg>
+        </a>
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12a10 10 0 1 0-11.63 9.88v-6.99H7.9V12h2.47V9.8c0-2.44 1.45-3.8 3.67-3.8 1.06 0 2.17.19 2.17.19v2.39h-1.22c-1.2 0-1.58.74-1.58 1.5V12h2.69l-.43 2.89h-2.26v6.99A10 10 0 0 0 22 12z"/></svg>
+        </a>
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="#E1306C"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm5 5.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm6.5-.75a1.25 1.25 0 1 1-1.25-1.25 1.25 1.25 0 0 1 1.25 1.25zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/></svg>
+        </a>
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 FLOWER SHOP     
+        <a href="{% url 'returns' %}">Returns & Refunds</a>
+    </div>
+</footer>
+
+<script>
+document.getElementById("orderSelect").addEventListener("change", function(){
+    let selected = this.options[this.selectedIndex];
+
+    if(selected.value){
+        document.getElementById("orderDetails").innerHTML = `
+            📦 Item: <b>${selected.dataset.flower}</b><br>
+            🔢 Quantity: <b>${selected.dataset.qty}</b><br>
+            💰 Price: <b>¥${selected.dataset.price}</b><br>
+            📅 Date: <b>${selected.dataset.date}</b>
+        `;
+    } else {
+        document.getElementById("orderDetails").innerHTML = "";
+    }
+});
+</script>
+
+{% endblock %}

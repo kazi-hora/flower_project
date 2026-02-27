@@ -1,0 +1,125 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block content %}
+
+<h2 style="text-align:center; margin-top:30px;">💳 Payment</h2>
+
+<!-- 🛒 SELECTED PRODUCTS SUMMARY -->
+<div style="width:70%; margin:20px auto; border:1px solid #ddd; padding:15px; border-radius:8px;">
+
+    <h3>🛍 Selected Items</h3>
+
+    {% for item in cart_items %}
+    <div style="display:flex; align-items:center; justify-content:space-between;
+                border-bottom:1px solid #eee; padding:10px 0;">
+
+        <div style="display:flex; align-items:center; gap:15px;">
+            <img src="{{ item.flower.image.url }}" width="70" height="70" style="object-fit:cover; border-radius:6px;">
+            <div>
+                <strong>{{ item.flower.name }}</strong><br>
+                ¥{{ item.flower.price }} × {{ item.quantity }}
+            </div>
+        </div>
+
+        <strong>¥{{ item.total_price }}</strong>
+    </div>
+    {% endfor %}
+
+    <h3 style="text-align:right; margin-top:10px;">
+        Total: ¥{{ total }}
+    </h3>
+</div>
+
+<form method="POST" style="width:50%; margin:auto;">
+{% csrf_token %}
+
+<!-- Name -->
+<div style="margin-bottom:10px;">
+    <label><b>Name</b></label>
+    <input type="text" name="name" class="input-field"
+           pattern="[A-Za-z\s]+"
+           placeholder="John Doe" required>
+</div>
+
+<!-- Phone -->
+<div style="margin-bottom:10px;">
+    <label><b>Phone</b></label>
+    <input type="text" name="phone" class="input-field"
+           pattern="\d{8,}" placeholder="98123456" required>
+</div>
+
+<!-- Email -->
+<div style="margin-bottom:10px;">
+    <label><b>Email</b></label>
+    <input type="email" name="email" class="input-field" required>
+</div>
+
+<!-- Order Type -->
+<div style="margin-bottom:10px;">
+    <label><b>Order Type</b></label>
+    <select name="order_type" id="order_type" class="input-field">
+        <option value="Pickup">Pickup</option>
+        <option value="Delivery">Delivery</option>
+    </select>
+</div>
+
+<!-- Address -->
+<div style="margin-bottom:10px;">
+    <label><b>Address</b></label>
+    <textarea name="address" class="input-field"></textarea>
+</div>
+
+<!-- Payment Method -->
+<div style="margin-bottom:10px;">
+    <label><b>Payment Method</b></label>
+    <select name="payment_method" id="payment_method" class="input-field">
+        <option value="Cash">Cash</option>
+        <option value="Card">Card</option>
+        <option value="Online">Online</option>
+    </select>
+</div>
+
+<!-- CARD -->
+<div id="card_fields" style="display:none; border:1px solid #ddd; padding:10px; border-radius:6px;">
+    <h4>💳 Card Information</h4>
+
+    <input type="text" name="card_number" class="input-field"
+           pattern="\d{16}" maxlength="16" placeholder="1234123412341234">
+
+    <input type="text" name="card_name" class="input-field"
+           pattern="[A-Za-z\s]+" placeholder="JOHN DOE">
+
+    <input type="text" name="expiry" class="input-field"
+           pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="08/26">
+
+    <input type="password" name="cvv" class="input-field"
+           pattern="\d{3}" maxlength="3" placeholder="123">
+</div>
+
+<!-- ONLINE -->
+<div id="online_fields" style="display:none; border:1px solid #ddd; padding:10px; border-radius:6px;">
+    <h4>🌐 Online Payment</h4>
+    <select name="online_provider" class="input-field">
+        <option value="PayPal">PayPal</option>
+        <option value="Stripe">Stripe</option>
+        <option value="GooglePay">Google Pay</option>
+    </select>
+</div>
+
+<br>
+<button type="submit" class="btn">Pay Now</button>
+
+</form>
+
+<script>
+let paymentMethod = document.getElementById("payment_method");
+let card = document.getElementById("card_fields");
+let online = document.getElementById("online_fields");
+
+paymentMethod.onchange = function(){
+    card.style.display = this.value === "Card" ? "block" : "none";
+    online.style.display = this.value === "Online" ? "block" : "none";
+}
+</script>
+
+{% endblock %}

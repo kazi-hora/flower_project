@@ -1,0 +1,79 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.checkout-box {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+.checkout-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.checkout-table th,
+.checkout-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.checkout-table th {
+    background: #f8f8f8;
+    text-align: left;
+}
+.total-summary {
+    text-align: right;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+.btn-primary {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.btn-primary:hover {
+    background: #218838;
+}
+</style>
+
+<div class="checkout-box">
+    <h2>🛒 Checkout</h2>
+
+    {% if cart_items %}
+        <table class="checkout-table">
+            <tr>
+                <th>Flower</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.flower.name }}</td>
+                <td>¥{{ item.flower.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>¥{{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="total-summary">
+            <strong>Grand Total: ¥{{ total }}</strong>
+        </div>
+
+        <br>
+        <!-- Proceed to Payment Button -->
+        <a href="{% url 'payment' %}" class="btn-primary">Proceed to Payment 💳</a>
+
+    {% else %}
+        <p>Your cart is empty.</p>
+        <a href="{% url 'flowers' %}" class="btn-primary">Go Shopping 🌸</a>
+    {% endif %}
+</div>
+
+{% endblock %}

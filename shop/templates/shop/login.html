@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:linear-gradient(135deg,#ffeef8,#f3e5f5);
+    font-family:"Segoe UI",sans-serif;
+}
+
+/* 🌸 LOGIN BOX */
+.form-box{
+    width:460px;
+    margin:auto;
+    padding:25px;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+/* ❌ ERROR MESSAGE */
+.error-box{
+    background:#ffebee;
+    color:#c62828;
+    padding:10px;
+    margin-bottom:12px;
+    border-radius:8px;
+    font-weight:600;
+    animation:shake .3s ease;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0)}
+    25%{transform:translateX(-5px)}
+    50%{transform:translateX(5px)}
+    75%{transform:translateX(-5px)}
+    100%{transform:translateX(0)}
+}
+
+/* 😺 CAT */
+.cat-box{
+    display:flex;
+    justify-content:center;
+    margin-bottom:15px;
+}
+
+.cat-box img{
+    width:70vh;
+    transition:.3s ease;
+}
+
+
+h2{
+    margin:auto;
+    color:#c2185b;
+}
+
+label{
+    font-weight:600;
+    display:block;
+    text-align:left;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0 15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#ec407a;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#d81b60;
+}
+
+.register-link{
+    margin-top:15px;
+}
+
+.register-link a{
+    color:#c2185b;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+{% include "shop/navbar.html" %}
+<div class="form-box">
+{% if attempts > 0 %}
+    <div class="error-box">
+        ❌ Invalid username or password
+    </div>
+{% endif %}
+
+    <!-- 😺 CAT -->
+    <div class="cat-box">
+        <img id="cat"
+            src="{% static 'shop/images/cat_open.jpg' %}"
+            data-open="{% static 'shop/images/cat_open.jpg' %}"
+            data-peek="{% static 'shop/images/cat_peek.jpg' %}"
+            data-cover="{% static 'shop/images/cat_cover.jpg' %}"
+            data-cry="{% static 'shop/images/cat_cry.jpg' %}"
+            data-angry="{% static 'shop/images/cat_angry.jpg' %}">
+
+    </div>
+
+
+    <h2>🌸 User Login 🌸</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label>Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="register-link">
+        Don’t have an account?
+        <a href="{% url 'register' %}">Register</a>
+    </div>
+
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const cat = document.getElementById("cat");
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const button = document.querySelector("button");
+
+    let attempts = {{ attempts|default:0 }};
+
+    if(username){
+        username.addEventListener("focus", () => {
+            cat.src = cat.dataset.peek;
+        });
+    }
+
+    if(password){
+        password.addEventListener("focus", () => {
+            cat.src = cat.dataset.cover;
+        });
+
+        password.addEventListener("blur", () => {
+            cat.src = cat.dataset.open;
+        });
+    }
+
+    // 👇 Session based logic
+    if(attempts == 1 || attempts == 2){
+        cat.src = cat.dataset.cry;
+    }
+
+    if(attempts >= 3){
+        cat.src = cat.dataset.angry;
+        button.disabled = true;
+        button.innerText = "Too Many Attempts 😾";
+    }
+
+});
+</script>
+
+</body>
+</html>

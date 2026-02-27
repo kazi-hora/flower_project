@@ -1,0 +1,325 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}Workshop{% endblock %}
+
+{% block content %}
+
+<style>
+.slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.workshop-slider {
+    display: flex;
+    gap: 15px;
+    transition: transform 0.5s ease;
+}
+
+.slide-card {
+    width: 300px;
+    flex: 0 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    overflow: hidden;
+    text-align: center;
+}
+
+.slide-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.slide-card h3 {
+    padding: 10px 5px 0;
+    font-size: 18px;
+}
+
+.slide-card p {
+    font-size: 14px;
+    padding: 0 10px 12px;
+}
+
+/* Navigation Buttons */
+.slider-btn {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    background: #00acc1;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    font-size: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.slider-btn:hover {
+    background: #00838f;
+}
+
+.prev-btn { left: 5px; }
+.next-btn { right: 5px; }
+
+/* Image Zoom Modal */
+#imgModal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 60px;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+
+#imgModal img {
+    display: block;
+    margin: auto;
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+#imgModal span {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+/* ===== FOOTER MAIN ===== */
+.site-footer {
+    background: #2e7d32;
+    padding: 18px 15px 10px;
+    font-size: 12px;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+}
+
+/* Grid Layout */
+.footer-container {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+/* Column Titles */
+.footer-column h4 {
+    font-size: 13px;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+}
+
+/* Links */
+.footer-column a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    margin-bottom: 4px;
+    font-size: 12px;
+    transition: 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: #e91e63;
+    transform: translateX(2px);
+}
+
+/* Contact Text */
+.footer-column p {
+    margin: 2px 0;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+/* ===== SOCIAL ICONS ===== */
+.footer-social {
+    text-align: center;
+    margin: 8px 0 6px;
+}
+
+.footer-social a {
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
+}
+
+.footer-social svg {
+    width: 16px;
+    height: 16px;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+    background: #e91e63;
+}
+
+.footer-social a:hover svg path {
+    fill: #fff;
+}
+
+/* ===== COPYRIGHT ===== */
+.footer-bottom {
+    text-align: center;
+    font-size: 11px;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+    padding-top: 6px;
+}
+
+.footer-bottom a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+.footer-bottom a:hover {
+    color: #e91e63;
+}
+</style>
+
+
+<div class="container">
+    <h2>Flower Workshops</h2>
+    <p>Join our workshops and learn about flowers and plants.</p>
+
+    <div class="slider-wrapper">
+        <button class="slider-btn prev-btn" onclick="slideLeft()">❮</button>
+        <button class="slider-btn next-btn" onclick="slideRight()">❯</button>
+
+        <div class="workshop-slider" id="slider">
+
+            {% for i in "1234567" %}
+            <div class="slide-card">
+                <img src="{% static 'shop/images/workshop'|add:i|add:'.jpg' %}" onclick="openModal(this.src)">
+                <h3>Workshop {{ i }}</h3>
+                <p>Hands-on floral learning experience.</p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+<!-- Image Modal -->
+<div id="imgModal">
+    <span onclick="closeModal()">&times;</span>
+    <img id="modalImg">
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="footer-container">
+
+    <div class="footer-column">
+    <h4>SHOP</h4>
+    <a href="{% url 'workshop' %}">Arrangements</a>
+    <a href="{% url 'shopplants' %}">Plants</a>
+</div>
+
+<div class="footer-column">
+    <h4>SERVICES</h4>
+    <a href="{% url 'weddings' %}">Weddings & Events</a>
+    <a href="{% url 'workshop' %}">Workshops</a>
+</div>
+
+<div class="footer-column">
+    <h4>COMPANY</h4>
+    <a href="{% url 'about' %}">About Us</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+</div>
+
+
+        <div class="footer-column footer-contact">
+            <h4>VISIT US</h4>
+            <p>flower@gmail.com</p>
+            <p>Mon-Fri: 8am-7pm</p>
+            <p>Sat-Sun: 8am-6pm</p>
+        </div>
+    </div>
+
+    <!-- SOCIAL ICONS -->
+<!-- SOCIAL ICONS -->
+<div class="footer-social">
+
+    <!-- TikTok -->
+    <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#000">
+            <path d="M21 8.5a7.5 7.5 0 0 1-4.5-1.5V15a6 6 0 1 1-6-6c.34 0 .67.03 1 .08v3.03a3 3 0 1 0 3 3V2h3a4.5 4.5 0 0 0 4.5 4.5v2z"/>
+        </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2">
+            <path d="M22 12a10 10 0 1 0-11.63 9.88v-6.99H7.9V12h2.47V9.8c0-2.44 
+            1.45-3.8 3.67-3.8 1.06 0 2.17.19 2.17.19v2.39h-1.22c-1.2 
+            0-1.58.74-1.58 1.5V12h2.69l-.43 2.89h-2.26v6.99A10 
+            10 0 0 0 22 12z"/>
+        </svg>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#E1306C">
+            <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 
+            0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm5 5.5A4.5 4.5 0 1 1 7.5 
+            12 4.5 4.5 0 0 1 12 7.5zm6.5-.75a1.25 1.25 0 1 1-1.25-1.25 
+            1.25 1.25 0 0 1 1.25 1.25zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
+        </svg>
+    </a>
+
+</div>
+
+    <div class="footer-bottom">
+        © 2026 FLOWER SHOP  
+        <a href="#">Returns & Refunds</a>
+    </div>
+</footer>
+<script>
+let scrollAmount = 0;
+const slider = document.getElementById("slider");
+
+function slideLeft() {
+    scrollAmount -= 320;
+    if (scrollAmount < 0) scrollAmount = 0;
+    slider.style.transform = `translateX(-${scrollAmount}px)`;
+}
+
+function slideRight() {
+    const maxScroll = slider.scrollWidth - document.querySelector(".slider-wrapper").clientWidth;
+    scrollAmount += 320;
+    if (scrollAmount > maxScroll) scrollAmount = maxScroll;
+    slider.style.transform = `translateX(-${scrollAmount}px)`;
+}
+
+// Image Zoom
+function openModal(src) {
+    document.getElementById("imgModal").style.display = "block";
+    document.getElementById("modalImg").src = src;
+}
+
+function closeModal() {
+    document.getElementById("imgModal").style.display = "none";
+}
+</script>
+
+{% endblock %}

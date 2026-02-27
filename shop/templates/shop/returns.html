@@ -1,0 +1,125 @@
+{% extends "shop/base.html" %}
+{% block content %}
+
+<style>
+.returns-wrapper {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+}
+
+.returns-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.returns-card h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 32px;
+    color: #2e7d32;
+}
+
+.returns-card p.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.policy-section {
+    margin-bottom: 25px;
+}
+
+.policy-section h3 {
+    color: #e91e63;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.policy-section ul {
+    padding-left: 20px;
+}
+
+.policy-section li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    color: #444;
+}
+
+.highlight-box {
+    background: #f1f8e9;
+    border-left: 5px solid #2e7d32;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #2e7d32;
+}
+
+.contact-support {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.contact-support a {
+    text-decoration: none;
+    background: linear-gradient(45deg, #2e7d32, #66bb6a);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.contact-support a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<div class="returns-wrapper">
+    <div class="returns-card">
+        <h1>Returns & Refunds</h1>
+        <p class="subtitle">
+            We want you to love your purchase 🌸 If something isn’t right, we’re here to help.
+        </p>
+
+        <div class="policy-section">
+            <h3>🌿 Return Policy</h3>
+            <ul>
+                <li>Items can be returned within <strong>7 days</strong> of delivery.</li>
+                <li>Products must be unused and in original condition.</li>
+                <li>Original packaging is required for all returns.</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h3>💰 Refund Process</h3>
+            <ul>
+                <li>Refunds are processed within <strong>5 business days</strong>.</li>
+                <li>Money will be returned to your original payment method.</li>
+                <li>Shipping charges are non-refundable.</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            ⚠️ Damaged or wrong items? Please contact us within 24 hours of delivery with a photo for quick support.
+        </div>
+
+        <div class="contact-support">
+            <a href="{% url 'contact' %}">Contact Support</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,223 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+
+<style>
+.map-container {
+    width: 100%;
+    height: 400px;
+    margin-top: 15px;
+}
+
+.shop-btn-wrapper {
+    text-align: center;   /* button lai center ma rakhcha */
+    margin-top: 20px;
+}
+
+.shop-btn {
+    display: inline-block;
+    padding: 10px 22px;
+    background: #e75480;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.shop-btn:hover {
+    opacity: 0.9;
+    
+}
+
+/* ===== FOOTER MAIN ===== */
+.site-footer {
+    background: #2e7d32;
+    padding: 18px 15px 10px;
+    font-size: 12px;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+}
+
+/* Grid Layout */
+.footer-container {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+/* Column Titles */
+.footer-column h4 {
+    font-size: 13px;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+}
+
+/* Links */
+.footer-column a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    margin-bottom: 4px;
+    font-size: 12px;
+    transition: 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: #e91e63;
+    transform: translateX(2px);
+}
+
+/* Contact Text */
+.footer-column p {
+    margin: 2px 0;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+/* ===== SOCIAL ICONS ===== */
+.footer-social {
+    text-align: center;
+    margin: 8px 0 6px;
+}
+
+.footer-social a {
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
+}
+
+.footer-social svg {
+    width: 16px;
+    height: 16px;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+    background: #e91e63;
+}
+
+.footer-social a:hover svg path {
+    fill: #fff;
+}
+
+/* ===== COPYRIGHT ===== */
+.footer-bottom {
+    text-align: center;
+    font-size: 11px;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+    padding-top: 6px;
+}
+
+.footer-bottom a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+.footer-bottom a:hover {
+    color: #e91e63;
+}
+</style>
+
+
+<h2>Our Location</h2>
+
+<div class="map-container">
+    <iframe
+        width="100%"
+        height="100%"
+        frameborder="0"
+        style="border:0"
+        src="https://www.google.com/maps?q=Tokyo+Station&output=embed"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<!-- Centered Go to Shop Button -->
+<div class="shop-btn-wrapper">
+    <a href="{% url 'flowers' %}" class="shop-btn">🌸 Go to Shop</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="footer-container">
+
+    <div class="footer-column">
+    <h4>SHOP</h4>
+    <a href="{% url 'workshop' %}">Arrangements</a>
+    <a href="{% url 'shopplants' %}">Plants</a>
+</div>
+
+<div class="footer-column">
+    <h4>SERVICES</h4>
+    <a href="{% url 'weddings' %}">Weddings & Events</a>
+    <a href="{% url 'workshop' %}">Workshops</a>
+</div>
+
+<div class="footer-column">
+    <h4>COMPANY</h4>
+    <a href="{% url 'about' %}">About Us</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+</div>
+
+
+        <div class="footer-column footer-contact">
+            <h4>VISIT US</h4>
+            <p>flower@gmail.com</p>
+            <p>Mon-Fri: 8am-7pm</p>
+            <p>Sat-Sun: 8am-6pm</p>
+        </div>
+    </div>
+
+
+    <!-- SOCIAL ICONS -->
+<!-- SOCIAL ICONS -->
+<div class="footer-social">
+
+    <!-- TikTok -->
+    <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#000">
+            <path d="M21 8.5a7.5 7.5 0 0 1-4.5-1.5V15a6 6 0 1 1-6-6c.34 0 .67.03 1 .08v3.03a3 3 0 1 0 3 3V2h3a4.5 4.5 0 0 0 4.5 4.5v2z"/>
+        </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2">
+            <path d="M22 12a10 10 0 1 0-11.63 9.88v-6.99H7.9V12h2.47V9.8c0-2.44 
+            1.45-3.8 3.67-3.8 1.06 0 2.17.19 2.17.19v2.39h-1.22c-1.2 
+            0-1.58.74-1.58 1.5V12h2.69l-.43 2.89h-2.26v6.99A10 
+            10 0 0 0 22 12z"/>
+        </svg>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#E1306C">
+            <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 
+            0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm5 5.5A4.5 4.5 0 1 1 7.5 
+            12 4.5 4.5 0 0 1 12 7.5zm6.5-.75a1.25 1.25 0 1 1-1.25-1.25 
+            1.25 1.25 0 0 1 1.25 1.25zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
+        </svg>
+    </a>
+
+</div>
+
+    <div class="footer-bottom">
+        © 2026 FLOWER SHOP    
+        <a href="#">Returns & Refunds</a>
+    </div>
+</footer>
+
+{% endblock %}
