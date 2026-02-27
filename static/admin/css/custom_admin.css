@@ -1,0 +1,265 @@
+/* ==================================================
+   GLOBAL BACKGROUND (PHOTO + GLASS EFFECT)
+================================================== */
+
+body {
+    background: url("/static/admin/img/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* White glass overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: -1;
+}
+
+/* ==================================================
+   HEADER
+================================================== */
+
+#header {
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+#site-name a {
+    color: white !important;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* ==================================================
+   DASHBOARD / MODULE CARDS
+================================================== */
+
+.module,
+#content,
+.dashboard #content {
+    background: rgba(255,255,255,0.85);
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    backdrop-filter: blur(8px);
+}
+
+/* Module titles */
+.module h2,
+.module caption {
+    background: linear-gradient(90deg, #fbc2eb, #a6c1ee);
+    color: #333;
+    font-weight: 700;
+    border-radius: 18px 18px 0 0;
+}
+
+/* ==================================================
+   TABLES
+================================================== */
+
+#changelist table {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+#changelist table thead {
+    background: #f8f9fa;
+}
+
+#changelist table tbody tr {
+    transition: 0.2s;
+}
+
+#changelist table tbody tr:hover {
+    background: #fff0f6;
+}
+
+/* ==================================================
+   BUTTONS (MODERN)
+================================================== */
+
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input {
+    border-radius: 30px !important;
+    padding: 8px 18px !important;
+    background: linear-gradient(135deg, #84fab0, #8fd3f4);
+    border: none !important;
+    color: #222 !important;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.button:hover,
+input[type=submit]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+/* Delete button */
+.deletelink {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3) !important;
+    color: white !important;
+}
+
+/* ==================================================
+   FORMS
+================================================== */
+
+input,
+textarea,
+select {
+    border-radius: 12px !important;
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #ff9a9e !important;
+    box-shadow: 0 0 8px rgba(255,154,158,0.45);
+}
+
+/* ==================================================
+   BREADCRUMBS
+================================================== */
+
+.breadcrumbs {
+    background: rgba(255,240,246,0.85);
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+/* ==================================================
+   LOGIN PAGE (PHOTO BACKGROUND)
+================================================== */
+
+.login {
+    background: url("/static/admin/img/login-bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.login #container {
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+    backdrop-filter: blur(10px);
+}
+
+/* ==================================================
+   LINKS
+================================================== */
+
+a {
+    transition: 0.2s;
+}
+
+a:hover {
+    opacity: 0.85;
+}
+/* DASHBOARD GRID */
+.admin-dashboard {
+    padding: 20px;
+}
+
+.dash-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.dash-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.dash-card:hover {
+    transform: translateY(-4px);
+}
+
+.dash-card h2 {
+    margin-bottom: 12px;
+    font-size: 18px;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 6px;
+}
+
+.dash-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dash-card li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.model-links a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+.btn-add {
+    background: linear-gradient(135deg, #84fab0, #8fd3f4);
+    color: #222;
+}
+
+.btn-view {
+    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+    color: #222;
+}
+div.breadcrumbs {
+    background: #0e8fce;
+    padding: 10px 40px;
+    border: none;
+    color: var(--breadcrumbs-fg);
+    text-align: left;
+}
+/* DASHBOARD BACKGROUND IMAGE */
+.dashboard-bg {
+    background: url("/static/admin/img/bg.jpg") no-repeat center center;
+    background-size: cover;
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+}
+
+/* Light glass overlay */
+.dashboard-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    z-index: 0;
+}
+
+/* Keep content above overlay */
+.dashboard-bg > * {
+    position: relative;
+    z-index: 1;
+}
